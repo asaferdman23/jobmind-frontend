@@ -57,6 +57,7 @@ export function AuthScreen({ busy, error, mode, notice, onModeChange, onSubmit }
           {(["signin", "signup"] as const).map((m) => (
             <button key={m}
               type="button"
+              aria-pressed={mode === m}
               className={cn(
                 "flex-1 py-2 rounded-md text-[13px] font-semibold transition-all border-none cursor-pointer",
                 mode === m ? "text-white" : "bg-transparent"
@@ -73,13 +74,13 @@ export function AuthScreen({ busy, error, mode, notice, onModeChange, onSubmit }
 
         {/* alerts */}
         {error && (
-          <div className="mb-4 px-4 py-3 rounded-lg text-sm border"
+          <div className="mb-4 px-4 py-3 rounded-lg text-sm border" role="alert"
             style={{ background: "rgba(239,68,68,0.08)", borderColor: "rgba(239,68,68,0.2)", color: "#f87171" }}>
             {error}
           </div>
         )}
         {notice && (
-          <div className="mb-4 px-4 py-3 rounded-lg text-sm border"
+          <div className="mb-4 px-4 py-3 rounded-lg text-sm border" role="status"
             style={{ background: "rgba(16,185,129,0.08)", borderColor: "rgba(16,185,129,0.2)", color: "#34d399" }}>
             {notice}
           </div>
@@ -103,7 +104,7 @@ export function AuthScreen({ busy, error, mode, notice, onModeChange, onSubmit }
             <input
               id="password" name="password" type="password"
               autoComplete={mode === "signin" ? "current-password" : "new-password"}
-              required minLength={8}
+              required minLength={mode === "signup" ? 8 : undefined}
               placeholder={mode === "signin" ? "Your password" : "Min 8 characters"}
               className="rounded-[7px] px-3 py-2.5 text-sm border outline-none transition-all"
               style={{ background: "var(--surface-2)", borderColor: "rgba(99,102,241,0.2)", color: "var(--text)", fontFamily: "var(--font-sans)" }}
@@ -111,7 +112,7 @@ export function AuthScreen({ busy, error, mode, notice, onModeChange, onSubmit }
           </div>
 
           <button
-            type="submit" disabled={busy}
+            type="submit" disabled={busy} aria-busy={busy}
             className="w-full py-3 rounded-[9px] text-sm font-bold text-white border-none cursor-pointer mt-1 transition-opacity"
             style={{
               background: "linear-gradient(135deg,#6366f1,#818cf8)",

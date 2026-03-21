@@ -7,7 +7,6 @@ export interface AuthSession {
 export type AppLocale = "en";
 export type AppDirection = "ltr" | "rtl";
 export type ThemeMode = "dark";
-export type AuthMode = "sign-in" | "sign-up";
 export type WorkspaceNavId =
   | "overview"
   | "resume"
