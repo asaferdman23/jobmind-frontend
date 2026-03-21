@@ -31,7 +31,7 @@ describe("App routing", () => {
     const ctas = await screen.findAllByRole("button", { name: /Sign in/i });
     await user.click(ctas[0]);
 
-    expect(await screen.findByRole("heading", { name: /Sign In/i })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: /Welcome back/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
   });
 });
