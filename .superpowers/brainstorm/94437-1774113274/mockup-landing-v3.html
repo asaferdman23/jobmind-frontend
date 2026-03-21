@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobMind — Landing v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #07070e;
+  --surface: #0c0c18;
+  --surface-2: #10101f;
+  --border: rgba(99,102,241,0.13);
+  --border-soft: rgba(255,255,255,0.07);
+  --indigo: #6366f1;
+  --indigo-light: #818cf8;
+  --indigo-dim: rgba(99,102,241,0.14);
+  --text: #f1f5f9;
+  --text-soft: #94a3b8;
+  --text-faint: #3d4a5c;
+  --font: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; overflow-x: hidden; }
+
+/* ── NAV ─────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center;
+  padding: 0 56px; height: 60px;
+  background: rgba(7,7,14,0.6);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand-icon {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}
+.brand-name { font-size: 15px; font-weight: 800; letter-spacing: -0.4px; }
+
+.nav-links { display: flex; gap: 2px; margin-left: 36px; }
+.nav-link { font-size: 13px; color: var(--text-soft); padding: 6px 11px; border-radius: 6px; text-decoration: none; transition: color .15s; }
+.nav-link:hover { color: var(--text); }
+
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn-ghost { padding: 7px 15px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; }
+.btn-nav-cta {
+  padding: 7px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: none; cursor: pointer;
+  box-shadow: 0 0 18px rgba(99,102,241,0.35);
+}
+
+/* ── HERO ────────────────────────── */
+.hero {
+  position: relative; overflow: hidden;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 120px 48px 80px;
+  text-align: center;
+}
+
+/* layered glow background */
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  overflow: hidden;
+}
+.hero-bg-orb {
+  position: absolute; border-radius: 50%;
+}
+.orb-1 {
+  width: 800px; height: 500px;
+  top: -100px; left: 50%; transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(99,102,241,0.22) 0%, transparent 65%);
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  top: 30%; left: 15%;
+  background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 60%);
+  animation: float1 8s ease-in-out infinite;
+}
+.orb-3 {
+  width: 350px; height: 350px;
+  top: 20%; right: 10%;
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 60%);
+  animation: float2 10s ease-in-out infinite;
+}
+@keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
+@keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(20px)} }
+
+/* grid overlay */
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
+}
+
+.hero-inner { position: relative; z-index: 2; max-width: 900px; }
+
+/* warning badge */
+.hero-warning {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.22);
+  border-radius: 20px; padding: 6px 16px;
+  font-size: 12px; font-weight: 600; color: #f87171;
+  letter-spacing: 0.2px; margin-bottom: 28px;
+}
+.warning-dot {
+  width: 7px; height: 7px; background: #ef4444; border-radius: 50%;
+  box-shadow: 0 0 8px #ef4444;
+  animation: blink 1.8s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero-title {
+  font-size: 70px; font-weight: 900; line-height: 1.0;
+  letter-spacing: -3px; margin-bottom: 24px; color: var(--text);
+}
+.hero-title .line2 {
+  display: block;
+  background: linear-gradient(135deg, #818cf8 10%, #c4b5fd 60%, #e879f9 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-title .accent { color: #f87171; -webkit-text-fill-color: #f87171; }
+
+.hero-sub {
+  font-size: 19px; color: var(--text-soft); max-width: 580px;
+  margin: 0 auto 14px; line-height: 1.65; font-weight: 400;
+}
+.hero-sub strong { color: var(--text); font-weight: 600; }
+
+.hero-urgency {
+  font-size: 13px; color: #fbbf24;
+  margin-bottom: 38px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+
+.hero-cta { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
+
+.btn-hero {
+  padding: 15px 32px; border-radius: 11px;
+  font-size: 16px; font-weight: 800; color: #fff;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: none; cursor: pointer;
+  box-shadow: 0 0 50px rgba(99,102,241,0.5), 0 8px 24px rgba(0,0,0,0.35);
+  letter-spacing: -0.2px;
+}
+.btn-see {
+  padding: 15px 24px; border-radius: 11px;
+  font-size: 15px; font-weight: 600; color: var(--text-soft);
+  background: transparent; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+}
+
+.hero-note { font-size: 12px; color: var(--text-faint); margin-bottom: 72px; }
+
+/* ── STATS STRIP ─────────────────── */
+.stats-strip {
+  display: flex; align-items: center; justify-content: center; gap: 0;
+  margin-bottom: 72px; position: relative; z-index: 2;
+}
+.stat-pill {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 14px 36px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.stat-pill:last-child { border-right: none; }
+.stat-pill-num {
+  font-family: var(--mono); font-size: 28px; font-weight: 700;
+  background: linear-gradient(135deg, #818cf8, #c4b5fd);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1; margin-bottom: 4px;
+}
+.stat-pill-label { font-size: 11px; color: var(--text-faint); font-weight: 500; }
+
+/* ── PRODUCT SHOT ────────────────── */
+.product-wrap {
+  position: relative; max-width: 960px; margin: 0 auto;
+  z-index: 2;
+}
+.product-glow {
+  position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 200px;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.product-frame {
+  background: var(--surface);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 0 80px rgba(99,102,241,0.13), 0 50px 100px rgba(0,0,0,0.6);
+  position: relative;
+}
+.product-frame::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 5%, rgba(129,140,248,0.7) 50%, transparent 95%);
+}
+.frame-bar {
+  background: #0a0a18; padding: 11px 16px;
+  display: flex; align-items: center; gap: 7px;
+  border-bottom: 1px solid var(--border);
+}
+.dot { width: 11px; height: 11px; border-radius: 50%; }
+.frame-url {
+  flex: 1; background: rgba(255,255,255,0.04); border-radius: 6px;
+  padding: 4px 12px; font-size: 11px; color: var(--text-faint);
+  font-family: var(--mono); text-align: center;
+}
+
+.frame-inner { display: grid; grid-template-columns: 200px 1fr; min-height: 380px; }
+
+/* Sidebar with icons */
+.frame-sidebar {
+  background: #090915; border-right: 1px solid var(--border);
+  padding: 14px 8px; display: flex; flex-direction: column;
+}
+.f-brand {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 10px 14px;
+  border-bottom: 1px solid var(--border); margin-bottom: 8px;
+}
+.f-brand-icon {
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg,#6366f1,#818cf8);
+  border-radius: 6px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.f-brand-name { font-size: 12px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+
+.f-group-label {
+  font-size: 9px; font-weight: 600; color: var(--text-faint);
+  text-transform: uppercase; letter-spacing: 1.2px;
+  padding: 8px 10px 3px;
+}
+.f-nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 10px; border-radius: 7px;
+  font-size: 11.5px; color: var(--text-faint); font-weight: 500;
+  margin-bottom: 1px;
+}
+.f-nav-item.on {
+  background: var(--indigo-dim); color: var(--indigo-light);
+  border: 1px solid rgba(99,102,241,0.18);
+}
+.f-nav-icon {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+}
+.f-nav-item.on .f-nav-icon { background: rgba(99,102,241,0.2); }
+
+.f-count {
+  margin-left: auto; font-size: 9px;
+  background: var(--indigo); color: #fff;
+  padding: 1px 6px; border-radius: 8px; font-weight: 700;
+}
+
+/* main dashboard */
+.frame-main { background: var(--bg); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+
+.f-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 2px;
+}
+.f-topbar-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.f-topbar-btn {
+  font-size: 10px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg,#6366f1,#818cf8);
+  border: none; border-radius: 5px; padding: 4px 10px; cursor: pointer;
+}
+
+.f-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.f-stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 9px; padding: 11px 12px; position: relative; overflow: hidden;
+}
+.f-stat::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+}
+.f-stat.hero-stat {
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.06));
+  border-color: rgba(99,102,241,0.25);
+}
+.f-stat-label { font-size: 8px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: 600; }
+.f-stat-val { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+.f-stat.hero-stat .f-stat-val { background: linear-gradient(135deg,#818cf8,#a5b4fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size: 26px; }
+.f-stat-sub { font-size: 8px; color: var(--text-faint); margin-top: 3px; }
+.f-stat-delta { font-size: 8px; color: #10b981; background: rgba(16,185,129,0.1); padding: 1px 5px; border-radius: 3px; display: inline-block; margin-top: 3px; }
+
+.f-grid { display: grid; grid-template-columns: 1fr 220px; gap: 10px; }
+
+.f-table { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; }
+.f-table-head {
+  padding: 8px 14px; font-size: 10px; font-weight: 600; color: var(--text-soft);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.f-table-head span { color: var(--indigo-light); font-size: 9px; }
+.f-row {
+  display: flex; align-items: center;
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  gap: 10px;
+}
+.f-row:last-child { border-bottom: none; }
+.f-logo {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: var(--text-soft);
+}
+.f-job-info { flex: 1; min-width: 0; }
+.f-job-title { font-size: 10px; font-weight: 600; color: var(--text); }
+.f-job-co { font-size: 9px; color: var(--text-soft); }
+.f-tags { display: flex; gap: 3px; margin-top: 3px; }
+.f-tag { font-size: 8px; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+.f-tag-g { background: rgba(16,185,129,0.12); color: #34d399; }
+.f-tag-y { background: rgba(245,158,11,0.12); color: #fbbf24; }
+.f-score { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--indigo-light); flex-shrink: 0; }
+
+.f-right { display: flex; flex-direction: column; gap: 8px; }
+.f-mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 12px; }
+.f-mini-title { font-size: 9px; font-weight: 600; color: var(--text-soft); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+.f-chip-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.f-chip { font-size: 8px; padding: 2px 7px; border-radius: 4px; font-weight: 500; border: 1px solid; }
+.f-chip-g { background: rgba(16,185,129,0.1); color: #34d399; border-color: rgba(16,185,129,0.2); }
+.f-chip-r { background: rgba(239,68,68,0.1); color: #f87171; border-color: rgba(239,68,68,0.2); }
+
+/* ── TRUST ───────────────────────── */
+.trust { max-width: 960px; margin: 0 auto; padding: 64px 48px 48px; text-align: center; }
+.trust-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 22px; }
+.trust-logos { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+.trust-logo { font-size: 12px; font-weight: 700; color: var(--text-faint); letter-spacing: 2px; }
+
+/* ── DIVIDER ─────────────────────── */
+.section-divider { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+.section-divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+
+/* ── URGENCY BAND ────────────────── */
+.urgency-band {
+  background: linear-gradient(135deg, rgba(239,68,68,0.06), rgba(99,102,241,0.06));
+  border-top: 1px solid rgba(239,68,68,0.15);
+  border-bottom: 1px solid rgba(239,68,68,0.15);
+  padding: 22px 48px; text-align: center;
+}
+.urgency-band-text {
+  font-size: 15px; font-weight: 700; color: var(--text);
+  max-width: 700px; margin: 0 auto; line-height: 1.6;
+}
+.urgency-band-text span { color: #f87171; }
+
+/* ── FEATURES ────────────────────── */
+.features { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
+
+.section-label { font-size: 11px; font-weight: 700; color: var(--indigo-light); text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 14px; }
+.section-heading { font-size: 40px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.08; text-align: center; color: var(--text); margin-bottom: 14px; }
+.section-body { font-size: 16px; color: var(--text-soft); text-align: center; max-width: 500px; margin: 0 auto 52px; line-height: 1.65; }
+
+.features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+
+.f-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 13px; padding: 28px;
+  position: relative; overflow: hidden; transition: border-color .2s;
+}
+.f-card:hover { border-color: rgba(99,102,241,0.3); }
+.f-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+}
+
+.f-card-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--indigo-dim); border: 1px solid rgba(99,102,241,0.22);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+.f-card-num {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: var(--indigo-light); background: var(--indigo-dim);
+  border: 1px solid rgba(99,102,241,0.2);
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+
+.f-card-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 9px; letter-spacing: -0.3px; }
+.f-card-desc { font-size: 13px; color: var(--text-soft); line-height: 1.68; }
+
+/* ── PRICING ─────────────────────── */
+.pricing { max-width: 840px; margin: 0 auto; padding: 80px 48px; }
+.pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 52px; }
+
+.p-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+.p-card.pro {
+  background: linear-gradient(135deg, rgba(99,102,241,0.09), rgba(139,92,246,0.05));
+  border-color: rgba(99,102,241,0.32); position: relative; overflow: hidden;
+}
+.p-card.pro::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, #818cf8, transparent);
+}
+.p-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; background: var(--indigo); color: #fff; padding: 3px 9px; border-radius: 5px; margin-bottom: 18px; }
+.p-plan { font-size: 14px; font-weight: 600; color: var(--text-soft); margin-bottom: 6px; }
+.p-price { font-family: var(--mono); font-size: 44px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.p-card.pro .p-price { background: linear-gradient(135deg,#818cf8,#a5b4fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.p-period { font-size: 12px; color: var(--text-faint); margin-bottom: 24px; }
+.p-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; }
+.p-item { font-size: 13px; color: var(--text-soft); display: flex; align-items: center; gap: 9px; }
+.p-check { color: #10b981; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.p-item.off { color: var(--text-faint); }
+.p-item.off .p-check { color: var(--text-faint); }
+.btn-plan-primary { width: 100%; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #6366f1, #818cf8); border: none; cursor: pointer; box-shadow: 0 0 28px rgba(99,102,241,0.35); }
+.btn-plan-ghost { width: 100%; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 600; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; }
+
+/* ── CTA ─────────────────────────── */
+.cta { max-width: 840px; margin: 0 auto 80px; padding: 0 48px; }
+.cta-inner {
+  background: linear-gradient(135deg, rgba(99,102,241,0.11), rgba(139,92,246,0.07));
+  border: 1px solid rgba(99,102,241,0.25); border-radius: 18px;
+  padding: 60px; text-align: center; position: relative; overflow: hidden;
+}
+.cta-inner::before {
+  content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+  width: 500px; height: 250px;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-inner::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(129,140,248,0.6), transparent);
+}
+.cta-title { font-size: 34px; font-weight: 900; letter-spacing: -1.2px; margin-bottom: 12px; position: relative; line-height: 1.1; }
+.cta-sub { font-size: 15px; color: var(--text-soft); margin-bottom: 32px; position: relative; }
+
+/* ── FOOTER ──────────────────────── */
+footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 56px; display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
+.footer-copy { font-size: 12px; color: var(--text-faint); }
+.footer-links { display: flex; gap: 22px; }
+.footer-link { font-size: 12px; color: var(--text-faint); text-decoration: none; }
+.footer-link:hover { color: var(--text-soft); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+        <path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white"/>
+      </svg>
+    </div>
+    <span class="brand-name">jobMind</span>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="#">Features</a>
+    <a class="nav-link" href="#">How it works</a>
+    <a class="nav-link" href="#">Pricing</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-nav-cta">Get started free</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-orb orb-1"></div>
+    <div class="hero-bg-orb orb-2"></div>
+    <div class="hero-bg-orb orb-3"></div>
+  </div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-inner">
+    <div class="hero-warning">
+      <span class="warning-dot"></span>
+      Don't send your CV without reading this first
+    </div>
+
+    <h1 class="hero-title">
+      Is your CV good enough<br>
+      <span class="line2">to get the interview?</span>
+    </h1>
+
+    <p class="hero-sub">
+      <strong>Most CVs get rejected in under 10 seconds.</strong> jobMind scores your CV against the exact role you want — so you know exactly where you stand before you hit send.
+    </p>
+
+    <div class="hero-urgency">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#fbbf24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+      </svg>
+      87% of candidates are underqualified for the roles they apply to — are you one of them?
+    </div>
+
+    <div class="hero-cta">
+      <button class="btn-hero">Check my CV now — it's free</button>
+      <button class="btn-see">See a sample report</button>
+    </div>
+    <p class="hero-note">No account needed &nbsp;·&nbsp; Results in 60 seconds &nbsp;·&nbsp; No credit card</p>
+  </div>
+
+  <!-- Stats strip -->
+  <div class="stats-strip">
+    <div class="stat-pill">
+      <div class="stat-pill-num">94%</div>
+      <div class="stat-pill-label">accuracy vs. job descriptions</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-pill-num">3.2×</div>
+      <div class="stat-pill-label">more interviews reported</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-pill-num">60s</div>
+      <div class="stat-pill-label">to your full score</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-pill-num">12k+</div>
+      <div class="stat-pill-label">CVs analyzed this month</div>
+    </div>
+  </div>
+
+  <!-- Product screenshot -->
+  <div class="product-wrap">
+    <div class="product-glow"></div>
+    <div class="product-frame">
+      <div class="frame-bar">
+        <div class="dot" style="background:#ef4444;"></div>
+        <div class="dot" style="background:#f59e0b;"></div>
+        <div class="dot" style="background:#10b981;"></div>
+        <div class="frame-url">app.jobmind.ai · Overview</div>
+      </div>
+      <div class="frame-inner">
+        <!-- SIDEBAR WITH ICONS -->
+        <div class="frame-sidebar">
+          <div class="f-brand">
+            <div class="f-brand-icon">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white"/></svg>
+            </div>
+            <span class="f-brand-name">jobMind</span>
+          </div>
+          <div class="f-group-label">Workspace</div>
+          <div class="f-nav-item on">
+            <div class="f-nav-icon">
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </div>
+            Overview
+          </div>
+          <div class="f-nav-item">
+            <div class="f-nav-icon">
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            CV / Resume
+          </div>
+          <div class="f-nav-item">
+            <div class="f-nav-icon">
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            Fit Analysis
+          </div>
+          <div class="f-group-label" style="margin-top:6px;">Jobs</div>
+          <div class="f-nav-item">
+            <div class="f-nav-icon">
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            Matches
+            <span class="f-count">12</span>
+          </div>
+          <div class="f-nav-item">
+            <div class="f-nav-icon">
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+            Alternatives
+          </div>
+          <div class="f-nav-item">
+            <div class="f-nav-icon">
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            </div>
+            Daily Digest
+          </div>
+        </div>
+
+        <!-- MAIN DASHBOARD -->
+        <div class="frame-main">
+          <div class="f-topbar">
+            <div class="f-topbar-title">Overview — Senior Product Designer</div>
+            <button class="f-topbar-btn">+ New Analysis</button>
+          </div>
+
+          <div class="f-stats">
+            <div class="f-stat hero-stat">
+              <div class="f-stat-label">Match Score</div>
+              <div class="f-stat-val">87%</div>
+              <div class="f-stat-delta">↑ +4% this week</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-label">Jobs Found</div>
+              <div class="f-stat-val" style="-webkit-text-fill-color:var(--text)">24</div>
+              <div class="f-stat-sub">matching your role</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-label">Analyses</div>
+              <div class="f-stat-val" style="-webkit-text-fill-color:var(--text);font-size:18px">2 / 5</div>
+              <div class="f-stat-sub">remaining today</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-label">Top Gap</div>
+              <div class="f-stat-val" style="-webkit-text-fill-color:#fbbf24;color:#fbbf24;font-size:13px;font-family:var(--font);margin-top:3px">AWS Cloud</div>
+              <div class="f-stat-sub">in 18 job posts</div>
+            </div>
+          </div>
+
+          <div class="f-grid">
+            <div class="f-table">
+              <div class="f-table-head">Top Matches <span>View all 24 →</span></div>
+              <div class="f-row">
+                <div class="f-logo" style="background:rgba(99,102,241,0.1);color:#818cf8;">S</div>
+                <div class="f-job-info">
+                  <div class="f-job-title">Product Designer · Stripe</div>
+                  <div class="f-job-co">Remote · $140k – $180k</div>
+                  <div class="f-tags">
+                    <span class="f-tag f-tag-g">Figma ✓</span>
+                    <span class="f-tag f-tag-g">Design Systems ✓</span>
+                    <span class="f-tag f-tag-y">AWS needed</span>
+                  </div>
+                </div>
+                <div class="f-score">92%</div>
+              </div>
+              <div class="f-row">
+                <div class="f-logo" style="background:rgba(139,92,246,0.1);color:#a78bfa;">L</div>
+                <div class="f-job-info">
+                  <div class="f-job-title">Senior Designer · Linear</div>
+                  <div class="f-job-co">Remote · $160k – $200k</div>
+                  <div class="f-tags">
+                    <span class="f-tag f-tag-g">Prototyping ✓</span>
+                    <span class="f-tag f-tag-g">Research ✓</span>
+                  </div>
+                </div>
+                <div class="f-score">88%</div>
+              </div>
+            </div>
+            <div class="f-right">
+              <div class="f-mini-card">
+                <div class="f-mini-title">Strengths</div>
+                <div class="f-chip-list">
+                  <span class="f-chip f-chip-g">Figma</span>
+                  <span class="f-chip f-chip-g">Design Systems</span>
+                  <span class="f-chip f-chip-g">TypeScript</span>
+                  <span class="f-chip f-chip-g">Research</span>
+                </div>
+              </div>
+              <div class="f-mini-card">
+                <div class="f-mini-title">Skill Gaps</div>
+                <div class="f-chip-list">
+                  <span class="f-chip f-chip-r">AWS Cloud</span>
+                  <span class="f-chip f-chip-r">Leadership</span>
+                  <span class="f-chip f-chip-r">OKRs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-label">Candidates from these companies have used jobMind</div>
+  <div class="trust-logos">
+    <span class="trust-logo">STRIPE</span>
+    <span class="trust-logo">GOOGLE</span>
+    <span class="trust-logo">LINEAR</span>
+    <span class="trust-logo">FIGMA</span>
+    <span class="trust-logo">VERCEL</span>
+    <span class="trust-logo">NOTION</span>
+  </div>
+</div>
+
+<!-- URGENCY BAND -->
+<div class="urgency-band">
+  <div class="urgency-band-text">
+    <span>Before you send your next application —</span> do you actually know if your CV is strong enough for that role? Most people don't. jobMind tells you in 60 seconds, for free.
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">How it works</div>
+  <h2 class="section-heading">Three steps.<br>One clear answer.</h2>
+  <p class="section-body">No fluff. No generic tips. Just a real score against the real job — and exactly what to do about it.</p>
+
+  <div class="features-grid">
+    <div class="f-card">
+      <div class="f-card-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <div class="f-card-title">Upload your CV</div>
+      <div class="f-card-desc">Drop your PDF or paste your text. Our parser reads your skills, experience, and achievements — no manual input, no reformatting.</div>
+    </div>
+    <div class="f-card">
+      <div class="f-card-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </div>
+      <div class="f-card-title">Name the role you want</div>
+      <div class="f-card-desc">Tell us exactly what you're going after — title, level, industry. We pull real job descriptions and build your match profile against them.</div>
+    </div>
+    <div class="f-card">
+      <div class="f-card-icon">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <div class="f-card-title">Know before you apply</div>
+      <div class="f-card-desc">A precise match score, ranked skill gaps, and specific suggestions you can fix today. Stop applying blind — send only when you're ready.</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><div class="section-divider-line"></div></div>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-heading">Start free. No tricks.</h2>
+  <p class="section-body">Get your first analysis today at no cost. Upgrade when your job search gets serious.</p>
+
+  <div class="pricing-grid">
+    <div class="p-card">
+      <div class="p-plan">Free</div>
+      <div class="p-price">$0</div>
+      <div class="p-period">forever</div>
+      <ul class="p-list">
+        <li class="p-item"><span class="p-check">✓</span>2 analyses per day</li>
+        <li class="p-item"><span class="p-check">✓</span>Top 5 job matches</li>
+        <li class="p-item"><span class="p-check">✓</span>Basic skill gap breakdown</li>
+        <li class="p-item off"><span class="p-check">—</span>Career alternatives</li>
+        <li class="p-item off"><span class="p-check">—</span>Daily digest & alerts</li>
+        <li class="p-item off"><span class="p-check">—</span>Unlimited analyses</li>
+      </ul>
+      <button class="btn-plan-ghost">Get started free</button>
+    </div>
+    <div class="p-card pro">
+      <div class="p-badge">Most popular</div>
+      <div class="p-plan">Pro</div>
+      <div class="p-price">$19</div>
+      <div class="p-period">per month · cancel anytime</div>
+      <ul class="p-list">
+        <li class="p-item"><span class="p-check">✓</span>Unlimited analyses</li>
+        <li class="p-item"><span class="p-check">✓</span>All job matches</li>
+        <li class="p-item"><span class="p-check">✓</span>Full AI suggestions</li>
+        <li class="p-item"><span class="p-check">✓</span>Career alternatives</li>
+        <li class="p-item"><span class="p-check">✓</span>Daily digest & job alerts</li>
+        <li class="p-item"><span class="p-check">✓</span>Priority support</li>
+      </ul>
+      <button class="btn-plan-primary">Start 7-day free trial</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta">
+  <div class="cta-inner">
+    <h2 class="cta-title">Check your CV before<br>your next application.</h2>
+    <p class="cta-sub">Free · No account needed · 60 seconds to your score.</p>
+    <button class="btn-hero">Check my CV now</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2025 jobMind · AI Career Intelligence</span>
+  <div class="footer-links">
+    <a class="footer-link" href="#">Privacy</a>
+    <a class="footer-link" href="#">Terms</a>
+    <a class="footer-link" href="#">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

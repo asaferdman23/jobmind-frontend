@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobMind — Landing v5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #07070e;
+  --surface: #0c0c18;
+  --surface-2: #10101f;
+  --border: rgba(99,102,241,0.13);
+  --indigo: #6366f1;
+  --indigo-light: #818cf8;
+  --indigo-dim: rgba(99,102,241,0.14);
+  --text: #f1f5f9;
+  --text-mid: #94a3b8;
+  --text-soft: #64748b;
+  --font: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; overflow-x: hidden; }
+
+/* ─ NAV ─ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; padding: 0 56px; height: 58px;
+  background: rgba(7,7,14,0.55); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand-icon { width: 28px; height: 28px; background: linear-gradient(135deg,#6366f1,#818cf8); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink:0; }
+.brand-name { font-size: 15px; font-weight: 800; letter-spacing: -0.4px; }
+.nav-links { display: flex; gap: 2px; margin-left: 32px; }
+.nav-link { font-size: 13px; color: var(--text-soft); padding: 5px 11px; border-radius: 6px; text-decoration: none; }
+.nav-link:hover { color: var(--text); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn-ghost-nav { padding: 6px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; }
+.btn-nav { padding: 7px 16px; border-radius: 7px; font-size: 13px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; cursor: pointer; box-shadow: 0 0 16px rgba(99,102,241,0.3); }
+
+/* ─ HERO ─ */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 140px 48px 0; text-align: center; position: relative; overflow: hidden;
+}
+.hero-glow {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 500px; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.2) 0%, transparent 65%);
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid rgba(99,102,241,0.22); border-radius: 20px;
+  padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--indigo-light); margin-bottom: 32px; position: relative;
+}
+.eyebrow-dot { width: 6px; height: 6px; background: #ef4444; border-radius: 50%; box-shadow: 0 0 6px #ef4444; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-title { font-size: 72px; font-weight: 900; line-height: 1.02; letter-spacing: -3px; color: var(--text); margin-bottom: 20px; position: relative; }
+.hero-title .grad { background: linear-gradient(135deg,#818cf8 10%,#c4b5fd 70%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-sub { font-size: 18px; color: var(--text-mid); max-width: 440px; margin: 0 auto 40px; line-height: 1.6; font-weight: 400; }
+.hero-cta { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+.btn-hero { padding: 14px 30px; border-radius: 10px; font-size: 15px; font-weight: 800; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; cursor: pointer; box-shadow: 0 0 44px rgba(99,102,241,0.45), 0 6px 20px rgba(0,0,0,0.3); letter-spacing: -0.2px; }
+.btn-see { padding: 14px 22px; border-radius: 10px; font-size: 15px; font-weight: 500; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; }
+.hero-note { font-size: 12px; color: var(--text-soft); margin-bottom: 72px; }
+
+/* ─ PRODUCT FRAME ─ */
+.product-wrap { position: relative; max-width: 1040px; margin: 0 auto; width: 100%; }
+.product-frame {
+  background: var(--surface); border: 1px solid rgba(99,102,241,0.18);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 0 80px rgba(99,102,241,0.1), 0 60px 120px rgba(0,0,0,0.6);
+  position: relative;
+}
+.product-frame::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 5%, rgba(129,140,248,0.65) 50%, transparent 95%); }
+
+/* titlebar */
+.frame-titlebar { background: #09091a; padding: 10px 16px; display: flex; align-items: center; gap: 7px; border-bottom: 1px solid var(--border); }
+.trafficlight { width: 11px; height: 11px; border-radius: 50%; }
+.frame-url { flex: 1; background: rgba(255,255,255,0.04); border-radius: 6px; padding: 4px 12px; font-size: 11px; color: var(--text-soft); font-family: var(--mono); text-align: center; }
+
+/* app shell */
+.app-shell { display: grid; grid-template-columns: 196px 1fr; height: 480px; }
+
+/* ── SIDEBAR (exact nav from config/ui.ts) ── */
+.app-sidebar {
+  background: #08081a; border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.sidebar-header {
+  padding: 14px 12px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.sidebar-brand-icon { width: 22px; height: 22px; background: linear-gradient(135deg,#6366f1,#818cf8); border-radius: 5px; flex-shrink:0; display:flex;align-items:center;justify-content:center; }
+.sidebar-brand-name { font-size: 12px; font-weight: 800; color: var(--text); letter-spacing: -0.2px; }
+
+/* nav items — mirroring workspaceNavItems exactly */
+.nav-items { padding: 6px 8px; flex: 1; display: flex; flex-direction: column; gap: 1px; }
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 10px; border-radius: 6px;
+  font-size: 11.5px; color: var(--text-soft); font-weight: 500;
+  cursor: pointer;
+}
+.nav-item.active {
+  background: var(--indigo-dim); color: var(--indigo-light);
+  border: 1px solid rgba(99,102,241,0.18);
+}
+.nav-item .ni { width: 15px; height: 15px; flex-shrink:0; display:flex;align-items:center;justify-content:center; opacity: 0.6; }
+.nav-item.active .ni { opacity: 1; }
+.nav-badge { margin-left: auto; font-size: 9px; background: var(--indigo); color: #fff; padding: 1px 5px; border-radius: 8px; font-weight: 700; }
+
+/* plan card in sidebar */
+.sidebar-plan-card {
+  margin: 8px; padding: 10px 12px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.06));
+  border: 1px solid rgba(99,102,241,0.2); border-radius: 8px;
+}
+.plan-card-label { font-size: 9px; color: var(--text-soft); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
+.plan-card-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.plan-card-desc { font-size: 9.5px; color: var(--text-soft); line-height: 1.4; margin-bottom: 8px; }
+.plan-upgrade-btn { width: 100%; font-size: 10px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; border-radius: 5px; padding: 5px; cursor: pointer; }
+
+/* ── MAIN AREA ── */
+.app-main { display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
+
+/* topbar — mirrors workspace-topbar */
+.app-topbar {
+  display: flex; align-items: center; padding: 0 18px;
+  height: 50px; border-bottom: 1px solid var(--border);
+  background: rgba(7,7,14,0.7); flex-shrink: 0; gap: 12px;
+}
+.topbar-breadcrumb { font-size: 10px; color: var(--text-soft); }
+.topbar-sep { color: var(--text-soft); font-size: 10px; }
+.topbar-title { font-size: 12px; font-weight: 700; color: var(--text); }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.user-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface-2, #10101f); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 10px;
+  font-size: 10px; color: var(--text-mid);
+}
+.user-chip .plan-badge { color: var(--indigo-light); font-weight: 700; }
+.signout-btn { font-size: 10px; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.07); border-radius: 5px; padding: 4px 8px; cursor: pointer; }
+
+/* scrollable workspace content */
+.app-content { flex: 1; overflow-y: auto; padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: #1e1e35; border-radius: 2px; }
+
+/* overview hero — mirrors overview-hero panel-surface */
+.overview-hero {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 16px; display: grid; grid-template-columns: 1fr 160px; gap: 12px; align-items: center;
+}
+.section-kicker {
+  display: inline-block; font-size: 9px; font-weight: 700; color: var(--indigo-light);
+  background: var(--indigo-dim); border: 1px solid rgba(99,102,241,0.2);
+  padding: 2px 7px; border-radius: 10px; margin-bottom: 6px;
+  text-transform: uppercase; letter-spacing: 0.8px;
+}
+.overview-h2 { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 5px; }
+.overview-p { font-size: 10px; color: var(--text-soft); line-height: 1.5; margin-bottom: 8px; max-width: 280px; }
+.overview-btns { display: flex; gap: 6px; }
+.btn-sm-primary { font-size: 10px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; }
+.btn-sm-outline { font-size: 10px; font-weight: 500; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 5px 10px; cursor: pointer; }
+
+.score-badge-panel {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.06));
+  border: 1px solid rgba(99,102,241,0.22); border-radius: 8px; padding: 12px;
+  gap: 3px;
+}
+.score-label { font-size: 8px; color: var(--text-soft); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+.score-value { font-family: var(--mono); font-size: 28px; font-weight: 800; background: linear-gradient(135deg,#818cf8,#a5b4fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height: 1; }
+.score-role { font-size: 9px; color: var(--text-soft); text-align: center; }
+
+/* metric strip — mirrors metric-strip grid */
+.metric-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.metric-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 9px;
+  padding: 11px 12px; display: flex; flex-direction: column; gap: 2px; position: relative; overflow: hidden;
+}
+.metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(99,102,241,0.25), transparent); }
+.metric-label { font-size: 8px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.metric-value { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.1; }
+.metric-meta { font-size: 9px; color: var(--text-soft); }
+
+/* workspace grid: primary + secondary */
+.workspace-grid { display: grid; grid-template-columns: 1fr 190px; gap: 10px; }
+.primary-col { display: flex; flex-direction: column; gap: 8px; }
+.secondary-col { display: flex; flex-direction: column; gap: 8px; }
+
+/* panel-surface — mirrors the real panel */
+.panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 9px; overflow: hidden;
+}
+.panel-head {
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-title { font-size: 11px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.panel-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--indigo); box-shadow: 0 0 5px var(--indigo); }
+.panel-body { padding: 10px 14px; }
+
+/* resume upload zone */
+.upload-zone {
+  border: 1.5px dashed rgba(99,102,241,0.28); border-radius: 8px;
+  padding: 16px; text-align: center; background: rgba(99,102,241,0.03);
+}
+.upload-zone-title { font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.upload-zone-sub { font-size: 9.5px; color: var(--text-soft); }
+
+/* target role field-row */
+.field-row { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: end; }
+.field-label { font-size: 9px; color: var(--text-soft); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
+.field-input { background: var(--surface-2,#10101f); border: 1px solid rgba(99,102,241,0.2); border-radius: 6px; padding: 7px 10px; font-size: 11px; color: var(--text); font-family: var(--font); width: 100%; outline: none; }
+.field-btns { display: flex; gap: 5px; }
+.btn-analyze { font-size: 10px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; border-radius: 5px; padding: 7px 10px; cursor: pointer; white-space: nowrap; }
+.btn-save { font-size: 10px; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 7px 8px; cursor: pointer; }
+
+/* analysis grid */
+.analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.analysis-card { display: flex; flex-direction: column; gap: 6px; }
+.analysis-card-title { font-size: 10px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.8px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font-size: 9px; padding: 2px 7px; border-radius: 4px; font-weight: 500; border: 1px solid; }
+.chip-positive { background: rgba(16,185,129,0.1); color: #34d399; border-color: rgba(16,185,129,0.2); }
+.chip-warning { background: rgba(245,158,11,0.1); color: #fbbf24; border-color: rgba(245,158,11,0.2); }
+
+/* job match card */
+.job-card { padding: 8px 0; border-bottom: 1px solid var(--border); }
+.job-card:last-child { border-bottom: none; }
+.job-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+.job-card-title { font-size: 11px; font-weight: 600; color: var(--text); }
+.job-card-co { font-size: 9px; color: var(--text-soft); }
+.score-chip { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--indigo-light); background: var(--indigo-dim); border: 1px solid rgba(99,102,241,0.2); padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+
+/* alternatives */
+.alt-card { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.alt-card:last-child { border-bottom: none; }
+.alt-role { font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.alt-rationale { font-size: 9px; color: var(--text-soft); max-width: 120px; line-height: 1.4; }
+.score-chip-subtle { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--text-soft); background: var(--surface-2,#10101f); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">
+    <div class="brand-icon"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white"/></svg></div>
+    <span class="brand-name">jobMind</span>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="#">Features</a>
+    <a class="nav-link" href="#">How it works</a>
+    <a class="nav-link" href="#">Pricing</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost-nav">Sign in</button>
+    <button class="btn-nav">Get started free</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="eyebrow">
+    <span class="eyebrow-dot"></span>
+    Don't send your CV blind
+  </div>
+
+  <h1 class="hero-title">
+    Is your CV good enough<br>
+    <span class="grad">to get the interview?</span>
+  </h1>
+
+  <p class="hero-sub">
+    Get your match score against any role — and know exactly what to fix — before you apply.
+  </p>
+
+  <div class="hero-cta">
+    <button class="btn-hero">Check my CV free →</button>
+    <button class="btn-see">See a sample</button>
+  </div>
+  <p class="hero-note">No account needed &nbsp;·&nbsp; 60 seconds &nbsp;·&nbsp; Free</p>
+
+  <!-- PRODUCT SCREENSHOT — mirrors the real AppShell exactly -->
+  <div class="product-wrap">
+    <div class="product-frame">
+
+      <!-- browser chrome -->
+      <div class="frame-titlebar">
+        <div class="trafficlight" style="background:#ef4444;"></div>
+        <div class="trafficlight" style="background:#f59e0b;"></div>
+        <div class="trafficlight" style="background:#10b981;"></div>
+        <div class="frame-url">app.jobmind.ai — Workspace / Career Intelligence</div>
+      </div>
+
+      <!-- app shell -->
+      <div class="app-shell">
+
+        <!-- SIDEBAR — exact nav items from config/ui.ts -->
+        <aside class="app-sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-brand">
+              <div class="sidebar-brand-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white"/></svg></div>
+              <span class="sidebar-brand-name">JobMind</span>
+            </div>
+          </div>
+          <div class="nav-items">
+            <!-- Overview -->
+            <div class="nav-item active">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+              Overview
+            </div>
+            <!-- Resume -->
+            <div class="nav-item">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></span>
+              Resume
+            </div>
+            <!-- Target Role -->
+            <div class="nav-item">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg></span>
+              Target Role
+            </div>
+            <!-- Analysis -->
+            <div class="nav-item">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></span>
+              Analysis
+            </div>
+            <!-- Matches -->
+            <div class="nav-item">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></span>
+              Matches
+              <span class="nav-badge">12</span>
+            </div>
+            <!-- Alternatives -->
+            <div class="nav-item">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></span>
+              Alternatives
+            </div>
+            <!-- Digest -->
+            <div class="nav-item">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></span>
+              Digest
+            </div>
+            <!-- Billing -->
+            <div class="nav-item">
+              <span class="ni"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></span>
+              Billing
+            </div>
+          </div>
+
+          <!-- plan card — mirrors workspace-sidebar-card -->
+          <div class="sidebar-plan-card">
+            <div class="plan-card-label">Plan</div>
+            <div class="plan-card-name">Free</div>
+            <div class="plan-card-desc">Upgrade for unlimited analyses and a premium daily digest.</div>
+            <button class="plan-upgrade-btn">Upgrade To Pro</button>
+          </div>
+        </aside>
+
+        <!-- MAIN — mirrors workspace-stage -->
+        <div class="app-main">
+
+          <!-- topbar — mirrors workspace-topbar -->
+          <div class="app-topbar">
+            <span class="topbar-breadcrumb">Workspace</span>
+            <span class="topbar-sep">/</span>
+            <span class="topbar-title">Career Intelligence</span>
+            <div class="topbar-right">
+              <div class="user-chip">
+                <span>user@gmail.com</span>
+                <span class="plan-badge">Free</span>
+              </div>
+              <button class="signout-btn">Sign Out</button>
+            </div>
+          </div>
+
+          <!-- scrollable workspace content -->
+          <div class="app-content">
+
+            <!-- overview-hero — mirrors section#overview -->
+            <div class="overview-hero">
+              <div>
+                <span class="section-kicker">Overview</span>
+                <div class="overview-h2">Senior Product Designer is your current best-fit lane.</div>
+                <div class="overview-p">Add AWS Cloud to your resume summary and mention cross-functional collaboration to signal leadership readiness.</div>
+                <div class="overview-btns">
+                  <button class="btn-sm-primary">Run Analysis</button>
+                  <button class="btn-sm-outline">Jump To Matches</button>
+                </div>
+              </div>
+              <div class="score-badge-panel">
+                <span class="score-label">Current Match Score</span>
+                <strong class="score-value">87%</strong>
+                <span class="score-role">Senior Product Designer</span>
+              </div>
+            </div>
+
+            <!-- metric-strip — mirrors metricCardConfigs -->
+            <div class="metric-strip">
+              <div class="metric-card">
+                <span class="metric-label">Plan</span>
+                <strong class="metric-value">Free</strong>
+                <small class="metric-meta">Active</small>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Analyses Today</span>
+                <strong class="metric-value">2</strong>
+                <small class="metric-meta">3 remaining</small>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Latest Match Score</span>
+                <strong class="metric-value" style="background:linear-gradient(135deg,#818cf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">87%</strong>
+                <small class="metric-meta">Senior Product Designer</small>
+              </div>
+            </div>
+
+            <!-- workspace grid: primary + secondary -->
+            <div class="workspace-grid">
+
+              <!-- PRIMARY COL: Resume · Target Role · Analysis · Matches -->
+              <div class="primary-col">
+
+                <!-- Resume section -->
+                <div class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title"><span class="panel-dot" style="background:#10b981;box-shadow:0 0 5px #10b981;"></span> Resume</div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="upload-zone">
+                      <div class="upload-zone-title">Drop a PDF or choose a file</div>
+                      <div class="upload-zone-sub">jobMind parses skills, experience, and projects into a structured profile.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Target Role section -->
+                <div class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title"><span class="panel-dot"></span> Target Role</div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="field-label">Target role</div>
+                    <div class="field-row">
+                      <input class="field-input" value="Senior Product Designer" readonly>
+                      <div class="field-btns">
+                        <button class="btn-analyze">Run Analysis</button>
+                        <button class="btn-save">Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Analysis section -->
+                <div class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title"><span class="panel-dot" style="background:#10b981;box-shadow:0 0 5px #10b981;"></span> Analysis</div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="analysis-grid">
+                      <div class="analysis-card">
+                        <div class="analysis-card-title">Strengths</div>
+                        <div class="chip-row">
+                          <span class="chip chip-positive">Figma</span>
+                          <span class="chip chip-positive">Design Systems</span>
+                          <span class="chip chip-positive">TypeScript</span>
+                          <span class="chip chip-positive">User Research</span>
+                        </div>
+                      </div>
+                      <div class="analysis-card">
+                        <div class="analysis-card-title">Missing Skills</div>
+                        <div class="chip-row">
+                          <span class="chip chip-warning">AWS Cloud</span>
+                          <span class="chip chip-warning">Team Leadership</span>
+                          <span class="chip chip-warning">OKRs</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Matches section -->
+                <div class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title"><span class="panel-dot"></span> Matches</div>
+                    <span style="font-size:9px;color:var(--indigo-light);">12 found →</span>
+                  </div>
+                  <div class="panel-body">
+                    <div class="job-card">
+                      <div class="job-card-header">
+                        <div>
+                          <div class="job-card-title">Product Designer</div>
+                          <div class="job-card-co">Stripe / Remote</div>
+                        </div>
+                        <span class="score-chip">92%</span>
+                      </div>
+                      <div class="chip-row" style="margin-top:4px;">
+                        <span class="chip chip-positive">Figma</span><span class="chip chip-positive">Design Systems</span><span class="chip chip-warning">AWS</span>
+                      </div>
+                    </div>
+                    <div class="job-card">
+                      <div class="job-card-header">
+                        <div>
+                          <div class="job-card-title">Senior Designer</div>
+                          <div class="job-card-co">Linear / Remote</div>
+                        </div>
+                        <span class="score-chip">88%</span>
+                      </div>
+                      <div class="chip-row" style="margin-top:4px;">
+                        <span class="chip chip-positive">Prototyping</span><span class="chip chip-positive">Research</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- /primary-col -->
+
+              <!-- SECONDARY COL: Alternatives · Digest · Billing -->
+              <div class="secondary-col">
+
+                <!-- Alternatives -->
+                <div class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title"><span class="panel-dot" style="background:#8b5cf6;box-shadow:0 0 5px #8b5cf6;"></span> Alternatives</div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="alt-card">
+                      <div>
+                        <div class="alt-role">UX Lead</div>
+                        <div class="alt-rationale">Strong overlap with your background</div>
+                      </div>
+                      <span class="score-chip-subtle">91%</span>
+                    </div>
+                    <div class="alt-card">
+                      <div>
+                        <div class="alt-role">Product Manager</div>
+                        <div class="alt-rationale">Growing demand in your area</div>
+                      </div>
+                      <span class="score-chip-subtle">78%</span>
+                    </div>
+                    <div class="alt-card">
+                      <div>
+                        <div class="alt-role">Design Engineer</div>
+                        <div class="alt-rationale">Emerging role, great fit</div>
+                      </div>
+                      <span class="score-chip-subtle">74%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Digest -->
+                <div class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title"><span class="panel-dot" style="background:#f59e0b;box-shadow:0 0 5px #f59e0b;"></span> Digest</div>
+                  </div>
+                  <div class="panel-body">
+                    <div style="font-size:10px;color:var(--text-soft);line-height:1.6;font-family:var(--mono);">
+                      📋 Daily Digest — Mar 21<br>
+                      ✅ 3 new matches above 85%<br>
+                      ⚡ Top pick: Stripe PD (92%)<br>
+                      💡 Fix: Add AWS to summary
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Billing -->
+                <div class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title"><span class="panel-dot" style="background:var(--text-soft);box-shadow:none;"></span> Billing</div>
+                  </div>
+                  <div class="panel-body">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                      <strong style="font-size:12px;color:var(--text);">Free</strong>
+                      <span style="font-size:9px;color:var(--text-soft);">active</span>
+                    </div>
+                    <p style="font-size:9.5px;color:var(--text-soft);line-height:1.5;margin-bottom:8px;">5 analyses per day. Pro removes limits and keeps the premium digest active.</p>
+                    <button class="btn-sm-primary" style="width:100%;font-size:10px;">Upgrade To Pro</button>
+                  </div>
+                </div>
+
+              </div><!-- /secondary-col -->
+            </div><!-- /workspace-grid -->
+
+          </div><!-- /app-content -->
+        </div><!-- /app-main -->
+      </div><!-- /app-shell -->
+    </div><!-- /product-frame -->
+  </div><!-- /product-wrap -->
+</section>
+
+<!-- ── BELOW FOLD ─────────────────────────── -->
+
+<div style="max-width:960px;margin:0 auto;padding:60px 48px 48px;text-align:center;">
+  <div style="font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:20px;">Candidates from these companies have used jobMind</div>
+  <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;">
+    <span style="font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:2px;opacity:.4;">STRIPE</span>
+    <span style="font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:2px;opacity:.4;">GOOGLE</span>
+    <span style="font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:2px;opacity:.4;">LINEAR</span>
+    <span style="font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:2px;opacity:.4;">FIGMA</span>
+    <span style="font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:2px;opacity:.4;">VERCEL</span>
+  </div>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 48px;"><div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);"></div></div>
+
+<section style="max-width:1100px;margin:0 auto;padding:80px 48px;">
+  <div style="font-size:11px;font-weight:700;color:var(--indigo-light);text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:14px;">How it works</div>
+  <h2 style="font-size:40px;font-weight:900;letter-spacing:-1.5px;line-height:1.08;text-align:center;margin-bottom:14px;">Three steps.<br>One clear answer.</h2>
+  <p style="font-size:16px;color:var(--text-mid);text-align:center;max-width:460px;margin:0 auto 52px;line-height:1.65;">No fluff. A real score against the real job — and exactly what to fix before you apply.</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:28px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(99,102,241,0.3),transparent);"></div>
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--indigo-dim);border:1px solid rgba(99,102,241,0.22);display:flex;align-items:center;justify-content:center;margin-bottom:18px;"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:9px;letter-spacing:-0.3px;">Upload your CV</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.68;">Drop your PDF or paste your text. Our parser extracts your skills, experience, and achievements instantly.</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:28px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(99,102,241,0.3),transparent);"></div>
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--indigo-dim);border:1px solid rgba(99,102,241,0.22);display:flex;align-items:center;justify-content:center;margin-bottom:18px;"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg></div>
+      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:9px;letter-spacing:-0.3px;">Set your target role</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.68;">Tell us the title you're going after. We match your profile against thousands of live job descriptions.</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:28px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(99,102,241,0.3),transparent);"></div>
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--indigo-dim);border:1px solid rgba(99,102,241,0.22);display:flex;align-items:center;justify-content:center;margin-bottom:18px;"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:9px;letter-spacing:-0.3px;">Know before you apply</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.68;">A precise match score, ranked skill gaps, and specific fixes. Send only when you're ready.</div>
+    </div>
+  </div>
+</section>
+
+<div style="max-width:820px;margin:0 auto 80px;padding:0 48px;">
+  <div style="background:linear-gradient(135deg,rgba(99,102,241,0.11),rgba(139,92,246,0.07));border:1px solid rgba(99,102,241,0.25);border-radius:18px;padding:60px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(129,140,248,0.6),transparent);"></div>
+    <h2 style="font-size:34px;font-weight:900;letter-spacing:-1.2px;margin-bottom:12px;line-height:1.1;">Check your CV before<br>your next application.</h2>
+    <p style="font-size:15px;color:var(--text-mid);margin-bottom:32px;">Free · No account needed · 60 seconds to your score.</p>
+    <button class="btn-hero">Check my CV now</button>
+  </div>
+</div>
+
+<footer style="border-top:1px solid rgba(255,255,255,0.05);padding:28px 56px;display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;">
+  <span style="font-size:12px;color:var(--text-soft);">© 2025 jobMind</span>
+  <div style="display:flex;gap:22px;">
+    <a style="font-size:12px;color:var(--text-soft);text-decoration:none;" href="#">Privacy</a>
+    <a style="font-size:12px;color:var(--text-soft);text-decoration:none;" href="#">Terms</a>
+    <a style="font-size:12px;color:var(--text-soft);text-decoration:none;" href="#">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobMind — Landing v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #07070e;
+  --surface: #0c0c18;
+  --border: rgba(99,102,241,0.13);
+  --indigo: #6366f1;
+  --indigo-light: #818cf8;
+  --indigo-dim: rgba(99,102,241,0.14);
+  --text: #f1f5f9;
+  --text-soft: #64748b;
+  --text-mid: #94a3b8;
+  --font: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; overflow-x: hidden; }
+
+/* NAV */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; padding: 0 56px; height: 58px;
+  background: rgba(7,7,14,0.5); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand-icon { width: 28px; height: 28px; background: linear-gradient(135deg,#6366f1,#818cf8); border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+.brand-name { font-size: 15px; font-weight: 800; letter-spacing: -0.4px; }
+.nav-links { display: flex; gap: 2px; margin-left: 32px; }
+.nav-link { font-size: 13px; color: var(--text-soft); padding: 5px 11px; border-radius: 6px; text-decoration: none; }
+.nav-link:hover { color: var(--text); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn-ghost { padding: 6px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; color: var(--text-soft); background: transparent; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; }
+.btn-nav { padding: 7px 16px; border-radius: 7px; font-size: 13px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; cursor: pointer; box-shadow: 0 0 16px rgba(99,102,241,0.3); }
+
+/* HERO — clean, breathing room */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 140px 48px 0;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+
+/* single centered glow only */
+.hero-glow {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 500px; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.2) 0%, transparent 65%);
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid rgba(99,102,241,0.22);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 12px; font-weight: 600; color: var(--indigo-light);
+  margin-bottom: 32px; position: relative;
+}
+.eyebrow-dot { width: 6px; height: 6px; background: #ef4444; border-radius: 50%; box-shadow: 0 0 6px #ef4444; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero-title {
+  font-size: 72px; font-weight: 900;
+  line-height: 1.02; letter-spacing: -3px;
+  color: var(--text); margin-bottom: 20px; position: relative;
+}
+.hero-title .grad {
+  background: linear-gradient(135deg, #818cf8 10%, #c4b5fd 70%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-size: 18px; color: var(--text-mid);
+  max-width: 440px; margin: 0 auto 40px;
+  line-height: 1.6; font-weight: 400;
+}
+
+.hero-cta { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+.btn-hero {
+  padding: 14px 30px; border-radius: 10px; font-size: 15px; font-weight: 800; color: #fff;
+  background: linear-gradient(135deg, #6366f1, #818cf8); border: none; cursor: pointer;
+  box-shadow: 0 0 44px rgba(99,102,241,0.45), 0 6px 20px rgba(0,0,0,0.3);
+  letter-spacing: -0.2px;
+}
+.btn-ghost-hero {
+  padding: 14px 22px; border-radius: 10px; font-size: 15px; font-weight: 500;
+  color: var(--text-soft); background: transparent;
+  border: 1px solid rgba(255,255,255,0.08); cursor: pointer;
+}
+.hero-note { font-size: 12px; color: var(--text-soft); margin-bottom: 72px; }
+
+/* PRODUCT FRAME */
+.product-wrap { position: relative; max-width: 980px; margin: 0 auto; width: 100%; }
+.product-frame {
+  background: var(--surface); border: 1px solid rgba(99,102,241,0.18);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 0 80px rgba(99,102,241,0.1), 0 60px 120px rgba(0,0,0,0.6);
+  position: relative;
+}
+.product-frame::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 5%, rgba(129,140,248,0.7) 50%, transparent 95%);
+}
+.frame-bar { background: #09091a; padding: 10px 16px; display: flex; align-items: center; gap: 7px; border-bottom: 1px solid var(--border); }
+.dot { width: 11px; height: 11px; border-radius: 50%; }
+.frame-url { flex: 1; background: rgba(255,255,255,0.04); border-radius: 6px; padding: 4px 12px; font-size: 11px; color: var(--text-soft); font-family: var(--mono); text-align: center; }
+
+.frame-inner { display: grid; grid-template-columns: 196px 1fr; height: 400px; }
+
+/* sidebar */
+.f-side { background: #090915; border-right: 1px solid var(--border); padding: 12px 8px; display: flex; flex-direction: column; }
+.f-brand { display: flex; align-items: center; gap: 7px; padding: 4px 10px 12px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.f-brand-icon { width: 22px; height: 22px; background: linear-gradient(135deg,#6366f1,#818cf8); border-radius: 5px; flex-shrink:0; display: flex; align-items: center; justify-content: center; }
+.f-brand-name { font-size: 12px; font-weight: 800; color: var(--text); }
+.f-group { font-size: 9px; font-weight: 600; color: var(--text-soft); text-transform: uppercase; letter-spacing: 1.2px; padding: 8px 10px 3px; }
+.f-item { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: 7px; font-size: 11.5px; color: var(--text-soft); font-weight: 500; margin-bottom: 1px; }
+.f-item.on { background: var(--indigo-dim); color: var(--indigo-light); border: 1px solid rgba(99,102,241,0.18); }
+.f-ico { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.f-count { margin-left: auto; font-size: 9px; background: var(--indigo); color: #fff; padding: 1px 6px; border-radius: 8px; font-weight: 700; }
+
+/* main */
+.f-main { background: var(--bg); padding: 18px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+.f-top { display: flex; align-items: center; justify-content: space-between; }
+.f-top-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.f-btn { font-size: 10px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; border-radius: 5px; padding: 4px 10px; cursor: pointer; }
+
+.f-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.f-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 11px 12px; }
+.f-stat.hero { background: linear-gradient(135deg,rgba(99,102,241,0.1),rgba(139,92,246,0.06)); border-color: rgba(99,102,241,0.25); }
+.f-stat-lbl { font-size: 8px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: 600; }
+.f-stat-val { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+.f-stat.hero .f-stat-val { background: linear-gradient(135deg,#818cf8,#a5b4fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size: 26px; }
+.f-stat-sub { font-size: 8px; margin-top: 3px; }
+.f-delta { color: #10b981; }
+
+.f-grid { display: grid; grid-template-columns: 1fr 200px; gap: 10px; flex: 1; }
+.f-table { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; }
+.f-thead { padding: 8px 14px; font-size: 10px; font-weight: 600; color: var(--text-mid); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+.f-thead span { color: var(--indigo-light); font-size: 9px; }
+.f-row { display: flex; align-items: center; padding: 9px 14px; border-bottom: 1px solid var(--border); gap: 10px; }
+.f-row:last-child { border-bottom: none; }
+.f-logo { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+.f-info { flex: 1; }
+.f-jt { font-size: 10px; font-weight: 600; color: var(--text); }
+.f-jc { font-size: 9px; color: var(--text-mid); }
+.f-tags { display: flex; gap: 3px; margin-top: 3px; }
+.t { font-size: 8px; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+.tg { background: rgba(16,185,129,0.12); color: #34d399; }
+.ty { background: rgba(245,158,11,0.12); color: #fbbf24; }
+.f-pct { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--indigo-light); flex-shrink: 0; }
+
+.f-right { display: flex; flex-direction: column; gap: 8px; }
+.f-mini { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 12px; }
+.f-mini-lbl { font-size: 9px; font-weight: 600; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font-size: 8px; padding: 2px 7px; border-radius: 4px; font-weight: 500; border: 1px solid; }
+.chip-g { background: rgba(16,185,129,0.1); color: #34d399; border-color: rgba(16,185,129,0.2); }
+.chip-r { background: rgba(239,68,68,0.1); color: #f87171; border-color: rgba(239,68,68,0.2); }
+
+/* EVERYTHING BELOW THE FOLD */
+.trust { max-width: 960px; margin: 0 auto; padding: 60px 48px 48px; text-align: center; }
+.trust-lbl { font-size: 11px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+.trust-logos { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.trust-logo { font-size: 12px; font-weight: 700; color: var(--text-soft); letter-spacing: 2px; opacity: 0.4; }
+
+.divider { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+.div-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+
+.features { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
+.sec-lbl { font-size: 11px; font-weight: 700; color: var(--indigo-light); text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 14px; }
+.sec-h { font-size: 40px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.08; text-align: center; margin-bottom: 14px; }
+.sec-sub { font-size: 16px; color: var(--text-mid); text-align: center; max-width: 460px; margin: 0 auto 52px; line-height: 1.65; }
+.feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.fc { background: var(--surface); border: 1px solid var(--border); border-radius: 13px; padding: 28px; position: relative; overflow: hidden; }
+.fc::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent); }
+.fc-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--indigo-dim); border: 1px solid rgba(99,102,241,0.22); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.fc-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 9px; letter-spacing: -0.3px; }
+.fc-desc { font-size: 13px; color: var(--text-mid); line-height: 1.68; }
+
+.pricing { max-width: 820px; margin: 0 auto; padding: 80px 48px; }
+.p-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 52px; }
+.pc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+.pc.pro { background: linear-gradient(135deg,rgba(99,102,241,0.09),rgba(139,92,246,0.05)); border-color: rgba(99,102,241,0.32); position: relative; overflow: hidden; }
+.pc.pro::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #818cf8, transparent); }
+.p-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; background: var(--indigo); color: #fff; padding: 3px 9px; border-radius: 5px; margin-bottom: 18px; }
+.p-plan { font-size: 14px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; }
+.p-price { font-family: var(--mono); font-size: 44px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.pc.pro .p-price { background: linear-gradient(135deg,#818cf8,#a5b4fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.p-per { font-size: 12px; color: var(--text-soft); margin-bottom: 24px; }
+.p-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; }
+.pi { font-size: 13px; color: var(--text-mid); display: flex; align-items: center; gap: 9px; }
+.pi-c { color: #10b981; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.pi.off { color: var(--text-soft); }
+.pi.off .pi-c { color: var(--text-soft); }
+.btn-pp { width: 100%; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#6366f1,#818cf8); border: none; cursor: pointer; box-shadow: 0 0 28px rgba(99,102,241,0.35); }
+.btn-pg { width: 100%; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 600; color: var(--text-mid); background: transparent; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; }
+
+.cta { max-width: 820px; margin: 0 auto 80px; padding: 0 48px; }
+.cta-inner { background: linear-gradient(135deg,rgba(99,102,241,0.11),rgba(139,92,246,0.07)); border: 1px solid rgba(99,102,241,0.25); border-radius: 18px; padding: 60px; text-align: center; position: relative; overflow: hidden; }
+.cta-inner::before { content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 500px; height: 250px; background: radial-gradient(ellipse,rgba(99,102,241,0.2) 0%,transparent 70%); pointer-events: none; }
+.cta-inner::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(129,140,248,0.6), transparent); }
+.cta-title { font-size: 34px; font-weight: 900; letter-spacing: -1.2px; margin-bottom: 12px; position: relative; line-height: 1.1; }
+.cta-sub { font-size: 15px; color: var(--text-mid); margin-bottom: 32px; position: relative; }
+
+footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 56px; display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
+.f-copy { font-size: 12px; color: var(--text-soft); }
+.f-links { display: flex; gap: 22px; }
+.f-link { font-size: 12px; color: var(--text-soft); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">
+    <div class="brand-icon"><svg width="15" height="15" fill="none" viewBox="0 0 24 24"><path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white"/></svg></div>
+    <span class="brand-name">jobMind</span>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="#">Features</a>
+    <a class="nav-link" href="#">How it works</a>
+    <a class="nav-link" href="#">Pricing</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-nav">Get started free</button>
+  </div>
+</nav>
+
+<!-- CLEAN HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-eyebrow">
+    <span class="eyebrow-dot"></span>
+    Don't send your CV blind
+  </div>
+
+  <h1 class="hero-title">
+    Is your CV good enough<br>
+    <span class="grad">to get the interview?</span>
+  </h1>
+
+  <p class="hero-sub">
+    Get your match score against any role — and know exactly what to fix — before you apply.
+  </p>
+
+  <div class="hero-cta">
+    <button class="btn-hero">Check my CV free →</button>
+    <button class="btn-ghost-hero">See a sample</button>
+  </div>
+  <p class="hero-note">No account needed &nbsp;·&nbsp; 60 seconds &nbsp;·&nbsp; Free</p>
+
+  <!-- product screenshot -->
+  <div class="product-wrap">
+    <div class="product-frame">
+      <div class="frame-bar">
+        <div class="dot" style="background:#ef4444;"></div>
+        <div class="dot" style="background:#f59e0b;"></div>
+        <div class="dot" style="background:#10b981;"></div>
+        <div class="frame-url">app.jobmind.ai</div>
+      </div>
+      <div class="frame-inner">
+        <div class="f-side">
+          <div class="f-brand">
+            <div class="f-brand-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white"/></svg></div>
+            <span class="f-brand-name">jobMind</span>
+          </div>
+          <div class="f-group">Workspace</div>
+          <div class="f-item on">
+            <span class="f-ico"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+            Overview
+          </div>
+          <div class="f-item">
+            <span class="f-ico"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></span>
+            CV / Resume
+          </div>
+          <div class="f-item">
+            <span class="f-ico"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></span>
+            Fit Analysis
+          </div>
+          <div class="f-group" style="margin-top:6px;">Jobs</div>
+          <div class="f-item">
+            <span class="f-ico"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></span>
+            Matches
+            <span class="f-count">12</span>
+          </div>
+          <div class="f-item">
+            <span class="f-ico"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></span>
+            Alternatives
+          </div>
+          <div class="f-item">
+            <span class="f-ico"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></span>
+            Daily Digest
+          </div>
+        </div>
+        <div class="f-main">
+          <div class="f-top">
+            <div class="f-top-title">Overview — Senior Product Designer</div>
+            <button class="f-btn">+ New Analysis</button>
+          </div>
+          <div class="f-stats">
+            <div class="f-stat hero">
+              <div class="f-stat-lbl">Match Score</div>
+              <div class="f-stat-val">87%</div>
+              <div class="f-stat-sub f-delta">↑ +4% this week</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-lbl">Jobs Found</div>
+              <div class="f-stat-val" style="-webkit-text-fill-color:var(--text)">24</div>
+              <div class="f-stat-sub" style="color:var(--text-soft)">matching your role</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-lbl">Analyses Left</div>
+              <div class="f-stat-val" style="-webkit-text-fill-color:var(--text);font-size:20px">2/5</div>
+              <div class="f-stat-sub" style="color:var(--text-soft)">today</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-lbl">Top Gap</div>
+              <div class="f-stat-val" style="-webkit-text-fill-color:#fbbf24;color:#fbbf24;font-size:13px;font-family:var(--font);margin-top:4px">AWS Cloud</div>
+              <div class="f-stat-sub" style="color:var(--text-soft)">in 18 postings</div>
+            </div>
+          </div>
+          <div class="f-grid">
+            <div class="f-table">
+              <div class="f-thead">Top Matches <span>View all 24 →</span></div>
+              <div class="f-row">
+                <div class="f-logo" style="background:rgba(99,102,241,0.1);color:#818cf8;">S</div>
+                <div class="f-info">
+                  <div class="f-jt">Product Designer · Stripe</div>
+                  <div class="f-jc">Remote · $140k–$180k</div>
+                  <div class="f-tags"><span class="t tg">Figma ✓</span><span class="t tg">Design Systems ✓</span><span class="t ty">AWS needed</span></div>
+                </div>
+                <div class="f-pct">92%</div>
+              </div>
+              <div class="f-row">
+                <div class="f-logo" style="background:rgba(139,92,246,0.1);color:#a78bfa;">L</div>
+                <div class="f-info">
+                  <div class="f-jt">Senior Designer · Linear</div>
+                  <div class="f-jc">Remote · $160k–$200k</div>
+                  <div class="f-tags"><span class="t tg">Prototyping ✓</span><span class="t tg">Research ✓</span></div>
+                </div>
+                <div class="f-pct">88%</div>
+              </div>
+            </div>
+            <div class="f-right">
+              <div class="f-mini">
+                <div class="f-mini-lbl">Strengths</div>
+                <div class="chips"><span class="chip chip-g">Figma</span><span class="chip chip-g">TypeScript</span><span class="chip chip-g">Research</span></div>
+              </div>
+              <div class="f-mini">
+                <div class="f-mini-lbl">Gaps</div>
+                <div class="chips"><span class="chip chip-r">AWS</span><span class="chip chip-r">Leadership</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-lbl">Candidates from these companies have used jobMind</div>
+  <div class="trust-logos">
+    <span class="trust-logo">STRIPE</span>
+    <span class="trust-logo">GOOGLE</span>
+    <span class="trust-logo">LINEAR</span>
+    <span class="trust-logo">FIGMA</span>
+    <span class="trust-logo">VERCEL</span>
+    <span class="trust-logo">NOTION</span>
+  </div>
+</div>
+
+<div class="divider"><div class="div-line"></div></div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="sec-lbl">How it works</div>
+  <h2 class="sec-h">Three steps.<br>One clear answer.</h2>
+  <p class="sec-sub">No fluff. A real score against the real job — and exactly what to fix before you apply.</p>
+  <div class="feat-grid">
+    <div class="fc">
+      <div class="fc-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+      <div class="fc-title">Upload your CV</div>
+      <div class="fc-desc">Drop your PDF or paste your text. Our parser extracts your skills, experience, and achievements instantly.</div>
+    </div>
+    <div class="fc">
+      <div class="fc-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+      <div class="fc-title">Set your target role</div>
+      <div class="fc-desc">Tell us the title you're going after. We match your profile against thousands of live job descriptions.</div>
+    </div>
+    <div class="fc">
+      <div class="fc-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#818cf8" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+      <div class="fc-title">Know before you apply</div>
+      <div class="fc-desc">A precise match score, ranked skill gaps, and specific fixes. Send only when you're ready.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="div-line"></div></div>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="sec-lbl">Pricing</div>
+  <h2 class="sec-h">Start free. No tricks.</h2>
+  <p class="sec-sub">Your first analysis is free. Upgrade when your search gets serious.</p>
+  <div class="p-grid">
+    <div class="pc">
+      <div class="p-plan">Free</div>
+      <div class="p-price">$0</div>
+      <div class="p-per">forever</div>
+      <ul class="p-list">
+        <li class="pi"><span class="pi-c">✓</span>2 analyses per day</li>
+        <li class="pi"><span class="pi-c">✓</span>Top 5 job matches</li>
+        <li class="pi"><span class="pi-c">✓</span>Basic skill gap breakdown</li>
+        <li class="pi off"><span class="pi-c">—</span>Career alternatives</li>
+        <li class="pi off"><span class="pi-c">—</span>Daily digest & alerts</li>
+        <li class="pi off"><span class="pi-c">—</span>Unlimited analyses</li>
+      </ul>
+      <button class="btn-pg">Get started free</button>
+    </div>
+    <div class="pc pro">
+      <div class="p-badge">Most popular</div>
+      <div class="p-plan">Pro</div>
+      <div class="p-price">$19</div>
+      <div class="p-per">per month · cancel anytime</div>
+      <ul class="p-list">
+        <li class="pi"><span class="pi-c">✓</span>Unlimited analyses</li>
+        <li class="pi"><span class="pi-c">✓</span>All job matches</li>
+        <li class="pi"><span class="pi-c">✓</span>Full AI suggestions</li>
+        <li class="pi"><span class="pi-c">✓</span>Career alternatives</li>
+        <li class="pi"><span class="pi-c">✓</span>Daily digest & alerts</li>
+        <li class="pi"><span class="pi-c">✓</span>Priority support</li>
+      </ul>
+      <button class="btn-pp">Start 7-day free trial</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <div class="cta-inner">
+    <h2 class="cta-title">Check your CV before<br>your next application.</h2>
+    <p class="cta-sub">Free · No account needed · 60 seconds to your score.</p>
+    <button class="btn-hero">Check my CV now</button>
+  </div>
+</div>
+
+<footer>
+  <span class="f-copy">© 2025 jobMind</span>
+  <div class="f-links">
+    <a class="f-link" href="#">Privacy</a>
+    <a class="f-link" href="#">Terms</a>
+    <a class="f-link" href="#">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

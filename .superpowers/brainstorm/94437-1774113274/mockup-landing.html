@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobMind — Landing Page Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #08080f;
+  --surface: #0d0d1a;
+  --surface-2: #111126;
+  --border: rgba(99,102,241,0.12);
+  --border-soft: rgba(255,255,255,0.06);
+  --indigo: #6366f1;
+  --indigo-light: #818cf8;
+  --indigo-dim: rgba(99,102,241,0.15);
+  --text: #f1f5f9;
+  --text-soft: #94a3b8;
+  --text-faint: #475569;
+  --font: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  overflow-x: hidden;
+}
+
+/* NAV */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  height: 60px;
+  background: rgba(8,8,15,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.brand-icon {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 40px;
+}
+
+.nav-link {
+  font-size: 13px;
+  color: var(--text-soft);
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-link:hover { color: var(--text); }
+
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ghost {
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-soft);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  padding: 7px 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(99,102,241,0.35);
+  transition: all 0.15s;
+}
+
+/* HERO */
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 90px 40px 70px;
+  text-align: center;
+  position: relative;
+}
+
+/* Glow blobs */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.25);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--indigo-light);
+  letter-spacing: 0.3px;
+  margin-bottom: 28px;
+}
+
+.hero-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--indigo-light);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero-title {
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--text);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.hero-title .gradient {
+  background: linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-soft);
+  max-width: 520px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 50px;
+}
+
+.btn-hero {
+  padding: 13px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 40px rgba(99,102,241,0.45), 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.btn-hero-ghost {
+  padding: 13px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+}
+
+.hero-meta {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-bottom: 60px;
+}
+
+/* Product screenshot */
+.product-frame {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(99,102,241,0.12), 0 40px 80px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.product-frame::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent);
+}
+
+.frame-bar {
+  background: #0d0d1a;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.frame-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.frame-url {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--text-faint);
+  font-family: var(--mono);
+  text-align: center;
+}
+
+.frame-content {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  height: 340px;
+}
+
+.frame-sidebar {
+  background: #0d0d1a;
+  border-right: 1px solid var(--border);
+  padding: 12px 8px;
+}
+
+.frame-nav-item {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-bottom: 1px;
+}
+
+.frame-nav-item.active {
+  background: var(--indigo-dim);
+  color: var(--indigo-light);
+}
+
+.frame-main {
+  padding: 16px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.frame-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.frame-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.frame-stat .label { font-size: 8px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.frame-stat .val { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); }
+.frame-stat:first-child .val { background: linear-gradient(135deg, #818cf8, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.frame-jobs {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.frame-job-header {
+  padding: 8px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-soft);
+  border-bottom: 1px solid var(--border);
+}
+
+.frame-job {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+}
+
+.frame-job:last-child { border-bottom: none; }
+.frame-job-title { color: var(--text); font-weight: 500; }
+.frame-job-co { color: var(--text-soft); }
+.frame-job-score { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--indigo-light); }
+
+/* TRUST */
+.trust {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 40px 60px;
+  text-align: center;
+}
+
+.trust-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+
+.trust-logos {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.trust-logo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-faint);
+  letter-spacing: 0.5px;
+  opacity: 0.5;
+}
+
+/* FEATURES */
+.features {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+.section-eyebrow {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--indigo-light);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.section-sub {
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-soft);
+  max-width: 500px;
+  margin: 0 auto 50px;
+  line-height: 1.6;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.feature-card:hover { border-color: var(--border-strong, rgba(99,102,241,0.3)); }
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--indigo-dim);
+  border: 1px solid rgba(99,102,241,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.feature-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+
+.feature-desc {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+/* PRICING */
+.pricing {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 50px;
+}
+
+.pricing-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  position: relative;
+}
+
+.pricing-card.featured {
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.06));
+  border-color: rgba(99,102,241,0.35);
+}
+
+.pricing-card.featured::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #6366f1, transparent);
+}
+
+.pricing-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: var(--indigo);
+  color: #fff;
+  padding: 3px 9px;
+  border-radius: 5px;
+  margin-bottom: 16px;
+}
+
+.pricing-plan { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.pricing-price {
+  font-family: var(--mono);
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.pricing-card.featured .pricing-price {
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pricing-sub { font-size: 12px; color: var(--text-faint); margin-bottom: 20px; }
+
+.pricing-features { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.pricing-feature { font-size: 13px; color: var(--text-soft); display: flex; align-items: center; gap: 8px; }
+.pricing-feature::before { content: '✓'; color: #10b981; font-weight: 700; font-size: 11px; }
+.pricing-feature.dim { color: var(--text-faint); }
+.pricing-feature.dim::before { content: '—'; color: var(--text-faint); }
+
+.btn-pricing-primary {
+  width: 100%;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(99,102,241,0.35);
+}
+
+.btn-pricing-ghost {
+  width: 100%;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+/* CTA BANNER */
+.cta-banner {
+  max-width: 800px;
+  margin: 0 auto 80px;
+  padding: 0 40px;
+}
+
+.cta-inner {
+  background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08));
+  border: 1px solid rgba(99,102,241,0.25);
+  border-radius: 16px;
+  padding: 50px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 150px;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.2) 0%, transparent 70%);
+}
+
+.cta-title { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 10px; }
+.cta-sub { font-size: 15px; color: var(--text-soft); margin-bottom: 28px; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-left { font-size: 12px; color: var(--text-faint); }
+.footer-links { display: flex; gap: 20px; }
+.footer-link { font-size: 12px; color: var(--text-faint); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-brand" href="#">
+    <div class="brand-icon">J</div>
+    <span class="brand-name">jobMind</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="#">Features</a>
+    <a class="nav-link" href="#">Pricing</a>
+    <a class="nav-link" href="#">How it works</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost">Sign in</button>
+    <button class="btn-primary">Get started free →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="hero-eyebrow-dot"></span>
+    AI-Powered Career Intelligence
+  </div>
+  <h1 class="hero-title">
+    Know exactly<br>
+    <span class="gradient">how hireable you are.</span>
+  </h1>
+  <p class="hero-sub">
+    Upload your resume. Set your target role. Get an instant AI analysis of your fit, skill gaps, and the best matching jobs — in seconds.
+  </p>
+  <div class="hero-cta">
+    <button class="btn-hero">Analyze my resume free →</button>
+    <button class="btn-hero-ghost">See how it works</button>
+  </div>
+  <div class="hero-meta">No credit card required · Free analysis in under 60 seconds</div>
+
+  <!-- Product screenshot -->
+  <div class="product-frame">
+    <div class="frame-bar">
+      <div class="frame-dot" style="background:#ef4444;"></div>
+      <div class="frame-dot" style="background:#f59e0b;"></div>
+      <div class="frame-dot" style="background:#10b981;"></div>
+      <div class="frame-url">app.jobmind.ai</div>
+    </div>
+    <div class="frame-content">
+      <div class="frame-sidebar">
+        <div style="display:flex;align-items:center;gap:6px;padding:8px 10px;margin-bottom:8px;">
+          <div style="width:20px;height:20px;background:linear-gradient(135deg,#6366f1,#818cf8);border-radius:5px;flex-shrink:0;"></div>
+          <span style="font-size:10px;font-weight:700;color:var(--text);">jobMind</span>
+        </div>
+        <div class="frame-nav-item active">Overview</div>
+        <div class="frame-nav-item">Resume</div>
+        <div class="frame-nav-item">Analysis</div>
+        <div class="frame-nav-item">Matches <span style="margin-left:4px;font-size:9px;background:var(--indigo);color:#fff;padding:1px 5px;border-radius:8px;">12</span></div>
+        <div class="frame-nav-item">Alternatives</div>
+        <div class="frame-nav-item">Digest</div>
+      </div>
+      <div class="frame-main">
+        <div class="frame-stats">
+          <div class="frame-stat">
+            <div class="label">Match Score</div>
+            <div class="val">87%</div>
+          </div>
+          <div class="frame-stat">
+            <div class="label">Jobs Found</div>
+            <div class="val" style="-webkit-text-fill-color:var(--text);">24</div>
+          </div>
+          <div class="frame-stat">
+            <div class="label">Top Gap</div>
+            <div class="val" style="font-size:13px;font-family:var(--font);-webkit-text-fill-color:#fbbf24;color:#fbbf24;margin-top:3px;">AWS Cloud</div>
+          </div>
+        </div>
+        <div class="frame-jobs">
+          <div class="frame-job-header">Top Matches</div>
+          <div class="frame-job">
+            <div>
+              <div class="frame-job-title">Product Designer · Stripe</div>
+              <div class="frame-job-co">Remote · $140k–$180k</div>
+            </div>
+            <div class="frame-job-score">92%</div>
+          </div>
+          <div class="frame-job">
+            <div>
+              <div class="frame-job-title">Senior Designer · Linear</div>
+              <div class="frame-job-co">Remote · $160k–$200k</div>
+            </div>
+            <div class="frame-job-score">88%</div>
+          </div>
+          <div class="frame-job">
+            <div>
+              <div class="frame-job-title">Design Lead · Notion</div>
+              <div class="frame-job-co">San Francisco · $155k</div>
+            </div>
+            <div class="frame-job-score">81%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-label">Trusted by candidates at</div>
+  <div class="trust-logos">
+    <span class="trust-logo">STRIPE</span>
+    <span class="trust-logo">GOOGLE</span>
+    <span class="trust-logo">LINEAR</span>
+    <span class="trust-logo">FIGMA</span>
+    <span class="trust-logo">VERCEL</span>
+    <span class="trust-logo">NOTION</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-eyebrow">How it works</div>
+  <h2 class="section-title">Your unfair advantage<br>in the job market</h2>
+  <p class="section-sub">Stop guessing if you're qualified. Get an AI-powered breakdown in seconds.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">Upload your resume</div>
+      <div class="feature-desc">Drop your PDF or paste your resume. Our AI extracts your skills, experience, and achievements instantly.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">Set your target role</div>
+      <div class="feature-desc">Tell us what job you're going for. We match your profile against thousands of real job descriptions.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Get your match score</div>
+      <div class="feature-desc">See exactly how you rank — with your strengths, skill gaps, and AI-written suggestions to improve your profile.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="section-eyebrow">Pricing</div>
+  <h2 class="section-title">Simple, honest pricing</h2>
+  <p class="section-sub">Start free. Upgrade when you're ready to go all in.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-plan">Free</div>
+      <div class="pricing-price">$0</div>
+      <div class="pricing-sub">forever</div>
+      <ul class="pricing-features">
+        <li class="pricing-feature">2 analyses per day</li>
+        <li class="pricing-feature">Top 5 job matches</li>
+        <li class="pricing-feature">Basic skill gap analysis</li>
+        <li class="pricing-feature dim">Career alternatives</li>
+        <li class="pricing-feature dim">Daily digest</li>
+        <li class="pricing-feature dim">Unlimited analyses</li>
+      </ul>
+      <button class="btn-pricing-ghost">Get started free</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-plan">Pro</div>
+      <div class="pricing-price">$19</div>
+      <div class="pricing-sub">per month · cancel anytime</div>
+      <ul class="pricing-features">
+        <li class="pricing-feature">Unlimited analyses</li>
+        <li class="pricing-feature">All job matches</li>
+        <li class="pricing-feature">Full AI suggestions</li>
+        <li class="pricing-feature">Career alternatives</li>
+        <li class="pricing-feature">Daily digest & alerts</li>
+        <li class="pricing-feature">Priority support</li>
+      </ul>
+      <button class="btn-pricing-primary">Start Pro free for 7 days →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <div class="cta-inner">
+    <h2 class="cta-title">Ready to get hired faster?</h2>
+    <p class="cta-sub">Join thousands of candidates who already know their match score.</p>
+    <button class="btn-hero">Analyze my resume free →</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-left">© 2025 jobMind · AI Career Intelligence</span>
+  <div class="footer-links">
+    <a class="footer-link" href="#">Privacy</a>
+    <a class="footer-link" href="#">Terms</a>
+    <a class="footer-link" href="#">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
