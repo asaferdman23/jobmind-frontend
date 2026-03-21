@@ -155,7 +155,7 @@ export function AppShell({
         {/* nav */}
         <nav className="flex-1 p-2 flex flex-col gap-px overflow-y-auto" aria-label="Workspace sections">
           {workspaceNavItems.map((item) => (
-            <NavItem key={item.id} item={item} active={false} />
+            <NavItem key={item.id} item={item} active={item.href === window.location.hash} />
           ))}
         </nav>
 
@@ -234,7 +234,7 @@ export function AppShell({
                 {analysis ? `${analysis.target_role} is your current best-fit lane.` : "Upload your resume and start with one target role."}
               </h2>
               <p className="text-sm mb-4" style={{ color: "var(--text-mid)" }}>
-                {analysis ? analysis.suggestions[0] : "jobMind keeps resume parsing, role fit, matched openings, alternatives, and daily digests in one premium workspace."}
+                {analysis ? (analysis.suggestions[0] ?? "Great match on this role. Expand your search to find more openings.") : "jobMind keeps resume parsing, role fit, matched openings, alternatives, and daily digests in one premium workspace."}
               </p>
               <div className="flex gap-2">
                 <button
@@ -243,6 +243,7 @@ export function AppShell({
                   type="button"
                   onClick={() => void onAnalyze()}
                   disabled={busy}
+                  aria-label="Run analysis from overview"
                 >
                   {busy ? "Analyzing…" : "Run Analysis"}
                 </button>
@@ -336,6 +337,7 @@ export function AppShell({
                         className="px-3 py-2 rounded-[7px] text-sm font-bold text-white border-none cursor-pointer"
                         style={{ background: "linear-gradient(135deg,#6366f1,#818cf8)" }}
                         type="button" onClick={() => void onAnalyze()} disabled={busy}
+                        aria-label="Run analysis for current target role"
                       >
                         {busy ? "Analyzing…" : "Run Analysis"}
                       </button>
