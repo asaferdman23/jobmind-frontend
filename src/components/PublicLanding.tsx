@@ -36,7 +36,7 @@ export function PublicLanding({ onNavigate }: PublicLandingProps) {
         >
           <div className="w-7 h-7 rounded-[7px] flex items-center justify-center flex-shrink-0"
             style={{ background: "linear-gradient(135deg, #6366f1, #818cf8)" }}>
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white" />
             </svg>
           </div>
@@ -55,6 +55,7 @@ export function PublicLanding({ onNavigate }: PublicLandingProps) {
 
         <div className="ml-auto flex items-center gap-2">
           <button
+            type="button"
             className="px-4 py-1.5 rounded-[7px] text-[13px] font-medium border transition-colors"
             style={{ color: "var(--text-soft)", borderColor: "rgba(255,255,255,0.08)", background: "transparent" }}
             onClick={() => onNavigate("/auth")}
@@ -62,6 +63,7 @@ export function PublicLanding({ onNavigate }: PublicLandingProps) {
             Sign in
           </button>
           <button
+            type="button"
             className="px-4 py-[7px] rounded-[7px] text-[13px] font-bold text-white border-none cursor-pointer"
             style={{ background: "linear-gradient(135deg, #6366f1, #818cf8)", boxShadow: "0 0 16px rgba(99,102,241,0.3)" }}
             onClick={() => onNavigate("/auth?mode=signup")}
@@ -105,6 +107,7 @@ export function PublicLanding({ onNavigate }: PublicLandingProps) {
         {/* CTAs */}
         <div className="flex items-center justify-center gap-3 mb-3">
           <button
+            type="button"
             className="px-8 py-[14px] rounded-[10px] text-[15px] font-extrabold text-white border-none cursor-pointer tracking-tight"
             style={{ background: "linear-gradient(135deg, #6366f1, #818cf8)", boxShadow: "0 0 44px rgba(99,102,241,0.45), 0 6px 20px rgba(0,0,0,0.3)" }}
             onClick={() => onNavigate("/auth?intent=analysis")}
@@ -146,7 +149,7 @@ export function PublicLanding({ onNavigate }: PublicLandingProps) {
       <Divider />
 
       {/* ── FEATURES ── */}
-      <section id="how-it-works" className="max-w-[1100px] mx-auto px-12 py-20">
+      <section id="features" className="max-w-[1100px] mx-auto px-12 py-20">
         <p className="text-[11px] font-bold uppercase tracking-[2px] text-center mb-4"
           style={{ color: "var(--indigo-light)" }}>How it works</p>
         <h2 className="text-[40px] font-black tracking-[-1.5px] leading-[1.08] text-center mb-4">
@@ -212,6 +215,7 @@ export function PublicLanding({ onNavigate }: PublicLandingProps) {
             Free · No account needed · 60 seconds to your score.
           </p>
           <button
+            type="button"
             className="px-8 py-[14px] rounded-[10px] text-[15px] font-extrabold text-white border-none cursor-pointer"
             style={{ background: "linear-gradient(135deg, #6366f1, #818cf8)", boxShadow: "0 0 44px rgba(99,102,241,0.45)" }}
             onClick={() => onNavigate("/auth?intent=analysis")}
@@ -308,6 +312,7 @@ function PricingCard({
         ))}
       </ul>
       <button
+        type="button"
         className="w-full py-[13px] rounded-[9px] text-sm font-bold cursor-pointer border-none"
         style={featured
           ? { background: "linear-gradient(135deg, #6366f1, #818cf8)", color: "#fff", boxShadow: "0 0 28px rgba(99,102,241,0.35)" }
@@ -323,7 +328,7 @@ function PricingCard({
 /* ProductScreenshot renders the dark app mockup that mirrors the real AppShell */
 function ProductScreenshot() {
   return (
-    <div className="relative rounded-[14px] overflow-hidden border"
+    <div aria-hidden="true" className="relative rounded-[14px] overflow-hidden border"
       style={{
         background: "var(--surface)",
         borderColor: "rgba(99,102,241,0.18)",
@@ -351,7 +356,7 @@ function ProductScreenshot() {
           <div className="flex items-center gap-2 px-3 py-3 border-b" style={{ borderColor: "var(--border)" }}>
             <div className="w-[22px] h-[22px] rounded-[5px] flex items-center justify-center flex-shrink-0"
               style={{ background: "linear-gradient(135deg,#6366f1,#818cf8)" }}>
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white" /></svg>
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L4 7v5c0 4.5 3.3 8.7 8 9.9 4.7-1.2 8-5.4 8-9.9V7L12 3z" fill="white" /></svg>
             </div>
             <span className="text-xs font-extrabold">JobMind</span>
           </div>
@@ -368,7 +373,7 @@ function ProductScreenshot() {
               { label: "Billing", Icon: CreditCard },
             ].map(({ label, active, Icon, badge }) => (
               <div key={label}
-                className={cn("flex items-center gap-2 px-2.5 py-[6px] rounded-[6px] text-[11.5px] font-medium")}
+                className="flex items-center gap-2 px-2.5 py-[6px] rounded-[6px] text-[11.5px] font-medium"
                 style={active
                   ? { background: "var(--indigo-dim)", color: "var(--indigo-light)", border: "1px solid rgba(99,102,241,0.18)" }
                   : { color: "var(--text-soft)" }}>
