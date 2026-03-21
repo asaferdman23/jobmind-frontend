@@ -269,7 +269,7 @@ function App() {
         Skip to content
       </a>
 
-      {route === "/" ? <PublicLanding billingEnabled={billingEnabled} session={session} onNavigate={navigate} /> : null}
+      {route === "/" ? <PublicLanding onNavigate={navigate} /> : null}
 
       {route === "/auth" ? (
         <AuthScreen
