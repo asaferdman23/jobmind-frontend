@@ -8,7 +8,6 @@ import { api } from "./lib/api";
 import { buildUrl, useAppRoute } from "./lib/router";
 import { restoreSession, signIn, signOut, signUp } from "./lib/auth";
 import type {
-  AuthMode,
   AuthSession,
   CareerAlternative,
   JobMatch,
@@ -29,10 +28,7 @@ function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const [authMode, setAuthMode] = useState<AuthMode>(searchParams.get("mode") === "signup" ? "sign-up" : "sign-in");
-
-  const [authEmail, setAuthEmail] = useState("demo@jobmind.local");
-  const [authPassword, setAuthPassword] = useState("demo1234");
+  const [authMode, setAuthMode] = useState<"signin" | "signup">(searchParams.get("mode") === "signup" ? "signup" : "signin");
 
   const [profile, setProfile] = useState<ProfileSummary | null>(null);
   const [resume, setResume] = useState<ResumeUploadResponse | null>(null);
@@ -65,7 +61,7 @@ function App() {
   }, [route]);
 
   useEffect(() => {
-    setAuthMode(searchParams.get("mode") === "signup" ? "sign-up" : "sign-in");
+    setAuthMode(searchParams.get("mode") === "signup" ? "signup" : "signin");
   }, [searchSignature]);
 
   useEffect(() => {
@@ -130,25 +126,24 @@ function App() {
     }
   }
 
-  async function runAuth(mode: AuthMode) {
+  async function handleAuthSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const email = (data.get("email") as string) ?? "";
+    const password = (data.get("password") as string) ?? "";
     setBusy(true);
     setError(null);
     setNotice(null);
     try {
-      const nextSession = mode === "sign-in" ? await signIn(authEmail, authPassword) : await signUp(authEmail, authPassword);
+      const nextSession = authMode === "signin" ? await signIn(email, password) : await signUp(email, password);
       setSession(nextSession);
-      setNotice(mode === "sign-in" ? "Welcome back. Your workspace is ready." : "Account created. Opening your workspace now.");
+      setNotice(authMode === "signin" ? "Welcome back. Your workspace is ready." : "Account created. Opening your workspace now.");
       navigate(buildUrl("/app", intentSearch));
     } catch (nextError) {
       setError((nextError as Error).message);
     } finally {
       setBusy(false);
     }
-  }
-
-  async function handleAuthSubmit(mode: AuthMode, event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    await runAuth(mode);
   }
 
   async function handleResumeUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -269,20 +264,15 @@ function App() {
         Skip to content
       </a>
 
-      {route === "/" ? <PublicLanding billingEnabled={billingEnabled} session={session} onNavigate={navigate} /> : null}
+      {route === "/" ? <PublicLanding onNavigate={navigate} /> : null}
 
       {route === "/auth" ? (
         <AuthScreen
-          authEmail={authEmail}
-          authMode={authMode}
-          authPassword={authPassword}
           busy={busy}
           error={error}
+          mode={authMode}
           notice={notice}
-          onAuthModeChange={setAuthMode}
-          onEmailChange={setAuthEmail}
-          onNavigate={navigate}
-          onPasswordChange={setAuthPassword}
+          onModeChange={setAuthMode}
           onSubmit={handleAuthSubmit}
         />
       ) : null}

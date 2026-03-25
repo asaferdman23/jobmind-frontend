@@ -18,8 +18,8 @@ describe("App routing", () => {
 
     render(<App />);
 
-    expect(await screen.findByText(/Find the right role before you waste another application/i)).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Start Free Analysis/i }).length).toBeGreaterThan(0);
+    expect(await screen.findByText(/Is your CV good enough/i)).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /Get started free/i }).length).toBeGreaterThan(0);
   });
 
   it("navigates from landing to auth", async () => {
@@ -28,10 +28,10 @@ describe("App routing", () => {
 
     render(<App />);
 
-    const ctas = await screen.findAllByRole("link", { name: /Start Free Analysis/i });
+    const ctas = await screen.findAllByRole("button", { name: /Sign in/i });
     await user.click(ctas[0]);
 
-    expect(await screen.findByRole("heading", { name: /Sign In/i })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: /Welcome back/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
   });
 });

@@ -6,8 +6,7 @@ export interface AuthSession {
 
 export type AppLocale = "en";
 export type AppDirection = "ltr" | "rtl";
-export type ThemeMode = "light";
-export type AuthMode = "sign-in" | "sign-up";
+export type ThemeMode = "dark";
 export type WorkspaceNavId =
   | "overview"
   | "resume"
@@ -22,6 +21,7 @@ export interface WorkspaceNavItem {
   id: WorkspaceNavId;
   label: string;
   href: string;
+  icon: string; // lucide-react icon name
 }
 
 export interface MetricCardConfig {
